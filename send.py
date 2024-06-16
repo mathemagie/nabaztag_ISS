@@ -76,7 +76,7 @@ def get_iss_location():
                 <html>
                     <head>
                         <title>ISS Current Location</title>
-                        <meta http-equiv="refresh" content="10">
+                        <meta http-equiv="refresh" content="60">
                     </head>
                     <body>
                         <h1>ISS Current Location - Current Time: {{ current_time }}</h1>
