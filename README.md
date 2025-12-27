@@ -1,8 +1,8 @@
-# 🐰🌌 Nabaztag ISS Tracker
+# 🐰🌌 Lapin cosmique
 
 > *A whimsical IoT project: My Nabaztag robot's ears wiggle every time the International Space Station flies over France. Live tracking + open source code.*
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Tracker-blue)](https://mathemagie.github.io/hack/nabaztag_iss/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Tracker-blue)](https://mathemagie.github.io/bidouille/lapin_cosmique/)
 [![Python](https://img.shields.io/badge/Python-3.x-green)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
@@ -12,9 +12,9 @@ Imagine a vintage smart rabbit from 2005 that gets excited every time the Intern
 
 My **Nabaztag** robot (a delightful IoT toy from the mid-2000s) wiggles its ears in real-time whenever the ISS enters French airspace. It's a playful bridge between Earth and space—turning orbital mechanics into delightful rabbit ear choreography.
 
-**🎥 [Watch the Demo Video](https://mathemagie.github.io/hack/nabaztag_iss/)** | **🌐 [Live ISS Tracker](https://mathemagie.github.io/hack/nabaztag_iss/)**
+**🎥 [Watch the Demo Video](https://mathemagie.github.io/bidouille/lapin_cosmique/)** | **🌐 [Live ISS Tracker](https://mathemagie.github.io/bidouille/lapin_cosmique/)**
 
-![Nabaztag ISS Tracker](https://mathemagie.github.io/hack/nabaztag_iss/nabaztag_ISS_scaled_x2.mp4)
+![Lapin cosmique](https://mathemagie.github.io/bidouille/lapin_cosmique/nabaztag_ISS_scaled_x2.mp4)
 
 ## 🎯 Project Overview
 
@@ -40,8 +40,8 @@ When the ISS enters French airspace (or any region you configure), the Python sc
 
 1. **Clone this repository**
    ```bash
-   git clone https://github.com/mathemagie/nabaztag_ISS.git
-   cd nabaztag_ISS
+   git clone https://github.com/mathemagie/lapin_cosmique.git
+   cd lapin_cosmique
    ```
 
 2. **Install dependencies**
@@ -193,14 +193,14 @@ Create a systemd service file `/etc/systemd/system/nabaztag-iss.service`:
 
 ```ini
 [Unit]
-Description=Nabaztag ISS Tracker
+Description=Lapin cosmique
 After=network.target
 
 [Service]
 Type=simple
 User=pi
-WorkingDirectory=/home/pi/nabaztag_ISS
-ExecStart=/usr/bin/python3 /home/pi/nabaztag_ISS/ear.py
+WorkingDirectory=/home/pi/lapin_cosmique
+ExecStart=/usr/bin/python3 /home/pi/lapin_cosmique/ear.py
 Restart=always
 
 [Install]
@@ -244,7 +244,7 @@ Simply update the coordinates in `ear.py` to match your desired region!
 
 ## 🔗 Related Resources
 
-- **🌐 [Live Web Tracker](https://mathemagie.github.io/hack/nabaztag_iss/)** - Real-time ISS tracking with interactive map
+- **🌐 [Live Web Tracker](https://mathemagie.github.io/bidouille/lapin_cosmique/)** - Real-time ISS tracking with interactive map
 - **📡 [Where The ISS At API](https://wheretheiss.at/)** - Free ISS tracking API
 - **🐰 [Nabaztag Information](https://en.wikipedia.org/wiki/Nabaztag)** - Learn about the Nabaztag hardware
 - **📚 [Nabaztag API Documentation](http://www.nabaztag.com/vl/FR/api.jsp)** - Official Nabaztag API reference
@@ -280,7 +280,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📸 Screenshots
 
-![ISS Tracker Map](https://mathemagie.github.io/hack/nabaztag_iss/screenshot-map.png)
+![ISS Tracker Map](https://mathemagie.github.io/bidouille/lapin_cosmique/screenshot-map.png)
 
 *Live ISS tracking map showing current position*
 
