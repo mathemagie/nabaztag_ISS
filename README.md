@@ -17,7 +17,7 @@ My **Nabaztag** robot (a delightful IoT toy from the mid-2000s) wiggles its ears
 
 This project combines:
 - **Real-time ISS tracking** via the [Open Notify API](http://api.open-notify.org/iss-now.json)
-- **Vintage IoT hardware** (Nabaztag/tag:tag rabbit from 2005-2011)
+- **Vintage IoT hardware** ([Nabaztag/tag:tag](https://www.multiplie.fr/nabaztag/) rabbit from 2005-2011)
 - **Python automation** that monitors space and controls physical movement
 - **A beautiful web interface** for live tracking
 
@@ -75,7 +75,7 @@ The script will continuously monitor the ISS position and trigger your Nabaztag'
 
 ### The Magic Behind the Ears
 
-1. **ISS Monitoring**: The Python script (`ear.py`) polls the [Where The ISS At API](https://api.wheretheiss.at/v1/satellites/25544) every 5 seconds to get the current ISS position.
+1. **ISS Monitoring**: The Python script (`ear.py`) polls the [Open Notify API](http://api.open-notify.org/iss-now.json) every 10 seconds to get the current ISS position.
 
 2. **Region Detection**: It checks if the ISS coordinates fall within your configured geographic boundaries (default: France).
 
@@ -242,8 +242,8 @@ Simply update the coordinates in `ear.py` to match your desired region!
 ## 🔗 Related Resources
 
 - **🌐 [Live Web Tracker](https://mathemagie.github.io/bidouille/lapin_cosmique/)** - Real-time ISS tracking with interactive map
-- **📡 [Where The ISS At API](https://wheretheiss.at/)** - Free ISS tracking API
-- **🐰 [Nabaztag Information](https://en.wikipedia.org/wiki/Nabaztag)** - Learn about the Nabaztag hardware
+- **📡 [Open Notify API](http://api.open-notify.org/)** - Free ISS tracking API
+- **🐰 [Nabaztag Information](https://www.multiplie.fr/nabaztag/)** - Learn about the Nabaztag and TagTagTag revival kit
 - **📚 [Nabaztag API Documentation](http://www.nabaztag.com/vl/FR/api.jsp)** - Official Nabaztag API reference
 
 ## 🤝 Contributing
@@ -271,7 +271,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **Where The ISS At** - For providing the free ISS tracking API
+- **Open Notify** - For providing the free ISS tracking API
 - **Nabaztag Community** - For keeping these delightful robots alive
 - **Open Source Community** - For inspiration and support
 
