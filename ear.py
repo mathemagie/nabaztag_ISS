@@ -1,3 +1,10 @@
+"""ISS Tracker for Nabaztag Ear Control.
+
+This module monitors the International Space Station's position and triggers
+ear movements on a Nabaztag robot when the ISS flies over France. It polls
+the Open Notify API every 10 seconds and sends commands via TCP socket.
+"""
+
 import socket
 import logging
 import requests
@@ -11,6 +18,12 @@ logging.basicConfig(
 
 
 def get_iss_location() -> dict:
+    """Fetch the current ISS location from the Open Notify API.
+
+    Returns:
+        dict: ISS position containing 'latitude' and 'longitude' keys as strings.
+              Returns empty dict on error.
+    """
     try:
         response = requests.get("http://api.open-notify.org/iss-now.json", timeout=10)
         response.raise_for_status()
@@ -31,6 +44,17 @@ def get_iss_location() -> dict:
 
 
 def is_iss_over_france(position: dict) -> bool:
+    """Check if the ISS is currently over France.
+
+    Uses a bounding box (41.0-51.0 lat, -5.0-9.0 lon) to determine if the ISS
+    position falls within France's approximate geographic boundaries.
+
+    Args:
+        position: Dictionary containing 'latitude' and 'longitude' keys.
+
+    Returns:
+        bool: True if ISS is over France, False otherwise.
+    """
     try:
         latitude = float(position.get("latitude", 0))
         longitude = float(position.get("longitude", 0))
@@ -47,6 +71,16 @@ def is_iss_over_france(position: dict) -> bool:
 
 
 def simulate_nc(data: str, host: str, port: int) -> None:
+    """Send data to a TCP server similar to netcat.
+
+    Establishes a TCP connection, sends data, and receives a response.
+    Used to communicate with the Nabaztag device over its control protocol.
+
+    Args:
+        data: String data to send (typically JSON commands).
+        host: Target host address (e.g., 'localhost').
+        port: Target port number (e.g., 1234).
+    """
     try:
         logging.info("Connecting to %s:%d", host, port)
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -67,6 +101,11 @@ def simulate_nc(data: str, host: str, port: int) -> None:
 
 
 def move_ears() -> None:
+    """Send ear movement commands to the Nabaztag device.
+
+    Sends a sequence of JSON-formatted ear position commands via TCP socket.
+    Ear positions range from 0-17 per the pynab protocol.
+    """
     data = (
         '{"type":"ears", "request_id":1, "left": 10, "right": 15}\n'
         '{"type":"ears", "request_id":2, "left": 5, "right": 0}\n'
@@ -77,6 +116,7 @@ def move_ears() -> None:
 
 
 if __name__ == "__main__":
+    # Main loop: Monitor ISS position every 10 seconds and move ears when over France
     while 1:
         iss_position = get_iss_location()
         if is_iss_over_france(iss_position):
