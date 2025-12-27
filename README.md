@@ -48,20 +48,21 @@ When the ISS enters French airspace (or any region you configure), the Python sc
 
 3. **Configure your Nabaztag connection**
    
-   Edit `ear.py` and update the Nabaztag IP address:
+   By default, the script connects to `localhost:1234`. To change this, edit the `simulate_nc()` call in `ear.py`:
    ```python
-   NABAZTAG_IP = "192.168.1.100"  # Replace with your Nabaztag's IP
+   # Line 76 in ear.py
+   simulate_nc(data, "localhost", 1234)  # Change host and port as needed
    ```
+   
+   If your Nabaztag is on a remote network, set up an SSH tunnel first (see SSH Tunnel Setup section below).
 
 4. **Customize your region** (optional)
    
-   By default, the script monitors French airspace. To change this, edit the coordinates in `ear.py`:
+   By default, the script monitors French airspace. To change this, edit the coordinates in the `is_iss_over_france()` function in `ear.py`:
    ```python
-   # France boundaries
-   MIN_LAT = 41.3
-   MAX_LAT = 51.1
-   MIN_LON = -5.1
-   MAX_LON = 8.2
+   # Line 38 in ear.py
+   if 41.0 <= latitude <= 51.0 and -5.0 <= longitude <= 9.0:  # France boundaries
+   # Change to your desired region's coordinates
    ```
 
 5. **Run the script**
@@ -79,15 +80,15 @@ The script will continuously monitor the ISS position and trigger your Nabaztag'
 
 2. **Region Detection**: It checks if the ISS coordinates fall within your configured geographic boundaries (default: France).
 
-3. **Ear Activation**: When the ISS enters the region, the script sends HTTP POST requests to your Nabaztag's local network interface, triggering ear movement commands.
+3. **Ear Activation**: When the ISS enters the region, the script sends TCP socket commands to your Nabaztag device, triggering ear movement commands.
 
 4. **Continuous Tracking**: The script runs in a loop, keeping the Nabaztag synchronized with the ISS's orbit.
 
 ### Technical Details
 
 - **API Communication**: Uses Python's `requests` library to fetch ISS data
-- **Network Protocol**: HTTP POST requests to Nabaztag's local IP address
-- **Command Format**: JSON commands defined in `mescommandes.json`
+- **Network Protocol**: TCP socket connection to Nabaztag (default: `localhost:1234`)
+- **Command Format**: JSON commands hardcoded in `ear.py` (lines 70-73) using pynab protocol
 - **SSH Tunnel**: Optional SSH tunnel support for remote Nabaztag access
 
 ## 📁 Project Files
@@ -95,18 +96,15 @@ The script will continuously monitor the ISS position and trigger your Nabaztag'
 | File | Description |
 |------|-------------|
 | `ear.py` | Main monitoring script that tracks ISS and controls Nabaztag |
-| `send.py` | Network communication helper for sending commands to Nabaztag |
-| `mescommandes.json` | JSON definitions for ear movement commands |
 | `requirements.txt` | Python package dependencies |
-| `.gitignore` | Git ignore rules for Python projects |
 
 ## 🛠️ Hardware Setup
 
 ### Nabaztag Requirements
 
 - **Nabaztag** or **tag:tag** rabbit (original models from 2005-2011)
-- Device must be on the same local network as your Raspberry Pi/computer
-- Nabaztag's local HTTP interface must be accessible
+- Device must be accessible via TCP socket connection (default port 1234)
+- Nabaztag should be on the same local network, or accessible via SSH tunnel
 
 ### Finding Your Nabaztag's IP Address
 
@@ -122,58 +120,50 @@ The script will continuously monitor the ISS position and trigger your Nabaztag'
 If your Nabaztag is on a different network or requires SSH access:
 
 ```bash
-ssh -L 8080:nabaztag-ip:80 user@gateway
+ssh -L 1234:nabaztag-ip:1234 user@gateway
 ```
 
-Then configure `ear.py` to use `localhost:8080`.
+The script will connect to `localhost:1234`, which will be forwarded to your Nabaztag via the SSH tunnel.
 
 ## ⚙️ Configuration
 
 ### Customizing Geographic Regions
 
-Edit the boundary coordinates in `ear.py`:
+Edit the boundary coordinates in the `is_iss_over_france()` function in `ear.py` (line 38):
 
 ```python
 # Example: United States (continental)
-MIN_LAT = 24.5
-MAX_LAT = 49.4
-MIN_LON = -125.0
-MAX_LON = -66.9
+if 24.5 <= latitude <= 49.4 and -125.0 <= longitude <= -66.9:
 
 # Example: United Kingdom
-MIN_LAT = 50.0
-MAX_LAT = 60.0
-MIN_LON = -8.0
-MAX_LON = 2.0
+if 50.0 <= latitude <= 60.0 and -8.0 <= longitude <= 2.0:
 
 # Example: Japan
-MIN_LAT = 24.0
-MAX_LAT = 46.0
-MIN_LON = 123.0
-MAX_LON = 146.0
+if 24.0 <= latitude <= 46.0 and 123.0 <= longitude <= 146.0:
 ```
 
 ### Adjusting Update Frequency
 
-Change the polling interval in `ear.py`:
+Change the polling interval in `ear.py` (line 87):
 
 ```python
-time.sleep(5)  # Check every 5 seconds (default)
+time.sleep(10)  # Check every 10 seconds (default)
 # Change to:
-time.sleep(10)  # Check every 10 seconds
+time.sleep(5)  # Check every 5 seconds
 ```
 
 ### Customizing Ear Movements
 
-Edit `mescommandes.json` to define custom ear movements:
+Edit the ear movement commands in the `move_ears()` function in `ear.py` (lines 70-73):
 
-```json
-{
-  "ear_left": 0,
-  "ear_right": 0,
-  "duration": 500
-}
+```python
+data = (
+    '{"type":"ears", "request_id":1, "left": 10, "right": 15}\n'
+    '{"type":"ears", "request_id":2, "left": 5, "right": 0}\n'
+)
 ```
+
+The `left` and `right` values control ear positions (0-17 range based on pynab protocol). Adjust these values to create different ear movement patterns.
 
 ## 🎨 Usage Examples
 
