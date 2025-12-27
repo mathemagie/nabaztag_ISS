@@ -4,7 +4,6 @@
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Tracker-blue)](https://mathemagie.github.io/bidouille/lapin_cosmique/)
 [![Python](https://img.shields.io/badge/Python-3.x-green)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
 ## ✨ What Is This?
 
@@ -14,12 +13,10 @@ My **Nabaztag** robot (a delightful IoT toy from the mid-2000s) wiggles its ears
 
 **🎥 [Watch the Demo Video](https://mathemagie.github.io/bidouille/lapin_cosmique/)** | **🌐 [Live ISS Tracker](https://mathemagie.github.io/bidouille/lapin_cosmique/)**
 
-![Lapin cosmique](https://mathemagie.github.io/bidouille/lapin_cosmique/nabaztag_ISS_scaled_x2.mp4)
-
 ## 🎯 Project Overview
 
 This project combines:
-- **Real-time ISS tracking** via the [Where The ISS At API](https://wheretheiss.at/)
+- **Real-time ISS tracking** via the [Open Notify API](http://api.open-notify.org/iss-now.json)
 - **Vintage IoT hardware** (Nabaztag/tag:tag rabbit from 2005-2011)
 - **Python automation** that monitors space and controls physical movement
 - **A beautiful web interface** for live tracking
